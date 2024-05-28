@@ -1,0 +1,45 @@
+name: Coverage And Tests (Windows)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  Coverage_and_test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      # Install Flutter Windows
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.5'  # Specify your Flutter version here
+
+      # Mis a jour de Flutter
+      - name: Updates Flutter
+        run: flutter pub get 
+
+      # Install gcovr for Windows
+      - name: Install gcovr
+        run: |
+          pip install gcovr
+
+      # Run tests and generate coverage report
+      - name: Run tests and generate coverage report
+        run: |
+          cd proximity_client  # Change directory to proximity_client
+          flutter test --coverage test/
+
+      # Generate coverage report using gcovr
+      - name: Generate coverage report using gcovr
+        run: gcovr -r . -o coverage/lcov.info
+
+      # Clean coverage report (if needed)
+      - name: Clean coverage report
+        run: |
+          # You might need to implement cleaning steps specific to your project's coverage report format
