@@ -161,6 +161,62 @@ jobs:
           echo "Listing build directory content..."
           ls -la proximity_client/build/app/outputs/flutter-apk/
 
+  backend:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:4.4
+        ports:
+          - 27017:27017
+        options: --ipc=host
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.5'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Node.js dependencies
+      run: npm install
+      working-directory: ./backend
+
+    - name: Start backend server
+      run: npm start &
+      working-directory: ./backend
+
+    - name: Wait for backend to be ready
+      run: sleep 15
+
+    - name: Install Flutter dependencies
+      run: flutter pub get
+
+    - name: Run tests with coverage
+      run: flutter test --coverage
+
+    - name: Install lcov
+      run: sudo apt-get install -y lcov
+
+    - name: Remove test files from coverage
+      run: lcov --remove coverage/lcov.info '*/test/*' -o coverage/lcov.cleaned.info
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        files: coverage/lcov.cleaned.info
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: true
+
+
   # Job 6: Deploy Android APK
   deploy_android:
     name: Deploy Android APK
