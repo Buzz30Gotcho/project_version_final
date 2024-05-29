@@ -178,9 +178,7 @@ jobs:
         with:
           name: app-release
           path: proximity_client/build/app/outputs/flutter-apk/app-release.apk
-          if-no-files-found: warn
-          compression-level: 6
-          overwrite: false
+
 
   # Job 7: Deploy to Firebase
   deploy_to_firebase:
