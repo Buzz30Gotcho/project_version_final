@@ -121,8 +121,7 @@ jobs:
       - name: Debug - List Build Directory
         run: |
           echo "Listing build directory content..."
-          cd proximity_client/build/app
-          ls -R .
+          ls -la proximity_client/build/app/outputs/flutter-apk/
 
   # Job 6: Deploy Android APK
   deploy_android:
