@@ -183,18 +183,18 @@ jobs:
 
     - name: Install Node.js dependencies
       run: npm install
-      working-directory: ./backend
+      working-directory: ./proximity_backend
 
     - name: Start backend server
       run: npm start &
-      working-directory: ./backend
+      working-directory: ./proximity_backend
 
     - name: Wait for backend to be ready
       run: sleep 15
 
     - name: Run backend tests
       run: npm test
-      working-directory: ./backend
+      working-directory: ./proximity_backend
 
 
   # Job 6: Deploy Android APK
