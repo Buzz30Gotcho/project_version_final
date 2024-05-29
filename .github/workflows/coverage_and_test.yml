@@ -135,7 +135,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app-release
-          path: proximity_client/build/app/outputs/apk/debug/app-debug.apk
+          path: proximity_client/build/app/outputs/flutter-apk/app-release.apk
 
     
 # Job de backend
