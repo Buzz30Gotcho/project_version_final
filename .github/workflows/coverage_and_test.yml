@@ -116,7 +116,11 @@ jobs:
       - run: flutter pub get
       - run: flutter clean
       - run: cd proximity_client/lib &&
-          flutter build apk 
+          flutter build apk
+      - name: Debug - List APK Directory
+        run: |
+          cd proximity_client/build/app/outputs/flutter-apk/
+          ls -la
   # Construire un fichier APK de l'application. 
   # Un APK (Android Package) est le format de fichier utilisé pour distribuer et installer des applications sur 
   # les appareils Android. Cette commande compile le code source Dart en un fichier exécutable Android.
