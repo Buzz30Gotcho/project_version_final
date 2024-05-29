@@ -198,7 +198,5 @@ jobs:
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
-          cd proximity_backend  
-          heroku apps:login
-          heroku create ${{ secrets.HEROKU_APP_NAME }}
-          git push heroku main
+          cd proximity_client  
+          firebase deploy --only hosting
