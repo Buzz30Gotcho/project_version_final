@@ -7,6 +7,9 @@ import 'package:proximity_client/ui/pages/main_pages/main_pages.dart';
 import 'package:proximity/l10n/app_localizations.dart';
 import 'package:proximity_client/ui/pages/product_pages/product_pages.dart';
 import 'package:proximity_client/ui/pages/main_pages/widgets/search_bar.dart' as proxSearch;
+import 'package:proximity_client/ui/pages/user_pages/view/reseaux_sociaux_screen.dart';
+import 'package:proximity/l10n/app_localizations.dart';
+
 
 class HomeTabScreen extends StatelessWidget {
   const HomeTabScreen({Key? key}) : super(key: key);
@@ -17,7 +20,36 @@ class HomeTabScreen extends StatelessWidget {
       return Scaffold(
         body: ListView(children: [
           const HomeTabBar(),
+
+
+          // Icône "Réseaux sociaux" de l'exemple fourni
+          ListButton(
+            title: "NOUS REJOINDRE",
+            leadIcon: ProximityIcons.social_media_icon ,
+            color: scaffoldBackgroundDarkColor,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ReseauxSociaux(),
+                ),
+              );
+            },
+          ),
+
+
+
+
+
+
+
           const proxSearch.SearchBar(),
+
+
+
+
+
+
 
           /// Ad Section
           productService.ads.isEmpty

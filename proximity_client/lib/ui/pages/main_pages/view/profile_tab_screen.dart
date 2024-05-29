@@ -138,6 +138,17 @@ class ProfileTabScreen extends StatelessWidget {
                   }),
 
               ListButton(
+                  title: localizations.reseau_sociaux_screen,
+                  leadIcon: ProximityIcons.social_media_icon,
+                  color: scaffoldBackgroundDarkColor,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ReseauxSociaux()));
+                  }),
+
+              ListButton(
                   title: localizations.language,
                   leadIcon: ProximityIcons.language,
                   onPressed: () {

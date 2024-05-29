@@ -212,6 +212,9 @@ abstract class AppLocalizations {
 // String get numero_product;
 String get qrCodeScreen;
 
+///[reseaux_sociaux]
+String get reseau_sociaux_screen;
+
   /// [SelleHomePage]
   String get welcome;
 

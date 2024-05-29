@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:proximity/config/themes/dark_theme.dart';
 import 'package:proximity/config/themes/light_theme.dart';
 
-
 class DuotoneIcon extends StatelessWidget {
   const DuotoneIcon(
       {Key? key,
@@ -49,6 +48,20 @@ class ProximityIcons {
  // static const IconData qr_code_scanner = IconData(0xe4f7,fontFamily: _fontFamily, fontPackage: "mbi");
 static const IconData qr_code_scanner = IconData(0xe4f7, fontFamily: 'MaterialIcons');
 // ---------------------------------------------
+
+// ICON RESEAUX SOCIAUX
+//static const IconData social_media_icon = IconData(0xf099, fontFamily: 'FontAwesome');
+//static const IconData social_media_icon = IconData(0xf099,fontFamily: 'MaterialIcons');
+//static const IconData social_media_icon = IconData(0xe7fb, fontFamily: 'MaterialIcons');
+static const IconData social_media_icon = IconData(0xe88a, fontFamily: 'MaterialIcons');
+//static const IconData instagram_icon = IconData(0xe917, fontFamily: 'MaterialIcons');
+static const IconData instagram_icon = IconData(0xf16d, fontFamily: 'MaterialIcons');
+static const IconData twitter_icon = IconData(0xf099, fontFamily: 'Font Awesome 5 Brands');
+
+
+
+// ----------------------------
+
   static const IconData order =
       IconData(0xe800, fontFamily: _fontFamily, fontPackage: _packageName);
   static const IconData dark_theme =

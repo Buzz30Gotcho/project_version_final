@@ -273,6 +273,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get partialRefundAmountHint => 'Montant du remboursement partiel.';
 
   /// [Settings]
+  //rajout de reseau_sociaux
+    @override
+  String get reseau_sociaux_screen=> 'Reseaux sociaux';
+  // -----------------
   // rajout de get qr code
   @override
   String get qrCodeScreen=> 'Qr Code';

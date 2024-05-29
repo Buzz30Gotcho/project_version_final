@@ -34,6 +34,16 @@ jobs:
       - name: Install lcov
         run: sudo apt-get install -y lcov
 
+
+      - name: Get Flutter dependencies
+        run: |
+          cd proximity_commercant
+          flutter pub get
+
+      - name: Install lcov
+        run: sudo apt-get install -y lcov
+        
+
   # Job 2: Run Tests and Generate Coverage
   run_tests:
     runs-on: ubuntu-latest
@@ -54,6 +64,16 @@ jobs:
             echo "Coverage report not found!"
             exit 1
           fi
+
+      - name: Run tests and generate coverage report
+        run: |
+          cd proximity_commercant
+          flutter test --coverage
+          if [ ! -f coverage/lcov.info ]; then
+            echo "Coverage report not found!"
+            exit 1
+          fi
+          
 
   # Job 3: Clean Coverage Report
   clean_coverage:
@@ -80,6 +100,18 @@ jobs:
           cd proximity_client
           ls -l coverage
 
+      - name: Install lcov
+        run: sudo apt-get install -y lcov
+      - name: Clean coverage report
+        run: |
+          cd proximity_commercant
+          lcov --remove coverage/lcov.info '*/test/*' -o coverage/lcov.cleaned.info
+
+      - name: List cleaned coverage report
+        run: |
+          cd proximity_commercant
+          ls -l coverage
+
   # Job 4: Upload notre rapport de couverture vers le site codecov
   upload_coverage:
     runs-on: ubuntu-latest
@@ -98,6 +130,12 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: proximity_client/coverage/lcov.info
+
+      - name: Upload coverage report to codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: proximity_commercant/coverage/lcov.info
     
 
   # Job 5: Build Android APK
@@ -115,11 +153,13 @@ jobs:
           flutter-version: '3.19.5'
       - run: flutter pub get
       - run: flutter clean
-      - run: cd proximity_client/lib &&
-          flutter build apk 
-  # Construire un fichier APK de l'application. 
-  # Un APK (Android Package) est le format de fichier utilisé pour distribuer et installer des applications sur 
-  # les appareils Android. Cette commande compile le code source Dart en un fichier exécutable Android.
+      - run: |
+          cd proximity_client
+          flutter build apk
+      - name: Debug - List Build Directory
+        run: |
+          echo "Listing build directory content..."
+          ls -la proximity_client/build/app/outputs/flutter-apk/
 
   # Job 6: Deploy Android APK
   deploy_android:
@@ -127,49 +167,22 @@ jobs:
     needs: build_android
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Debug - List APK Directory Before Upload
+        run: |
+          echo "Listing APK directory content before upload..."
+          ls -la proximity_client/build/app/outputs/flutter-apk/
       - name: Upload APK artifact
         uses: actions/upload-artifact@v2
         with:
           name: app-release
           path: proximity_client/build/app/outputs/flutter-apk/app-release.apk
 
-    
-# Job de backend
-  # backend:
-  #   name: Build and Deploy Backend
-  #   needs: deploy_android  # Ce job dépend du déploiement de l'APK Android
-  #   runs-on: ubuntu-latest
 
-  #   steps:
-  #   - name: Checkout code
-  #     uses: actions/checkout@v2
-    
-  #   - name: Install Node.js
-  #     uses: actions/setup-node@v2
-  #     with:
-  #       node-version: '14'
-
-  #   - name: Install dependencies
-  #     run: npm install
-
-  #   - name: Run backend tests
-  #     run: npm test
-
-  #   - name: Generate coverage report
-  #     run: npm run coverage
-
-  #   - name: Deploy to Heroku
-  #     env:
-  #       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-  #     run: |
-  #       heroku apps:login
-  #       heroku git:remote -a ${{ secrets.HEROKU_APP_NAME }}
-  #       git push heroku main
-
-
-  # Job 7: Deploy to Heroku
-  deploy_to_heroku:
-    name: Deploy to Heroku
+  # Job 7: Deploy to Firebase
+  deploy_to_firebase:
+    name: Deploy to Firebase
     needs: [deploy_android]
     runs-on: ubuntu-latest
 
@@ -177,15 +190,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Install Heroku CLI
+      - name: Install Firebase CLI
         run: |
-          curl https://cli-assets.heroku.com/install.sh | sh
+          curl -sL https://firebase.tools | bash
       
-      - name: Deploy to Heroku
+      - name: Deploy to Firebase Hosting
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
         run: |
-          cd proximity_backend  
-          heroku apps:login
-          heroku create ${{ secrets.HEROKU_APP_NAME }}
-          git push heroku main
+          cd proximity_client  
+          firebase deploy --only hosting

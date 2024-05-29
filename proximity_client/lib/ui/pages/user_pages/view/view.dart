@@ -8,5 +8,6 @@ export 'language_screen.dart';
 export 'notifications_preferences_screen.dart';
 export 'preference_slider_screen.dart';
 export 'notification_settings_screen.dart';
-// rajout du fichier qr_code_screen.dart
+// rajout du fichier qr_code_screen.dart et reseaux sociaux.dart
 export 'qr_code_screen.dart';
+export 'reseaux_sociaux_screen.dart';

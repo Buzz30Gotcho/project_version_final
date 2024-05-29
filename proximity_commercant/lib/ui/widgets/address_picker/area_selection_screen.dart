@@ -226,8 +226,7 @@ class _AreaSelectionScreenState extends State<AreaSelectionScreen> {
                           child: TimeButton(
                             onPressed: policyValidation.incrShippingMaxKM,
                             text: Text(
-                                policyValidation.shippingMaxKM.toString() +
-                                    "  KM"),
+                                "${policyValidation.shippingMaxKM}  KM"),
                           ),
                           /* child: TextField(
                           controller: _counterController,

@@ -2,13 +2,13 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:proximity/proximity.dart';
-
+import 'package:proximity_commercant/ui/pages/store_pages/widgets/storeCategoriesSelectionWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:proximity_commercant/domain/store_repository/store_repository.dart';
 
-class storeCategorySelectionWidget extends StatefulWidget {
-  storeCategorySelectionWidget({Key? key, this.store, this.check_deselect})
+class StoreCategorySelectionWidget extends StatefulWidget {
+  StoreCategorySelectionWidget({Key? key, this.store, this.check_deselect})
       : super(key: key);
 
   Store? store;
@@ -19,7 +19,7 @@ class storeCategorySelectionWidget extends StatefulWidget {
 }
 
 class _storeCategorySelectionWidgetState
-    extends State<storeCategorySelectionWidget> {
+    extends State<StoreCategorySelectionWidget> {
   List<StoreCategory> categories = [];
   bool fetched = false;
 

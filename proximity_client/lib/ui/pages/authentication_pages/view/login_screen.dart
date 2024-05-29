@@ -22,7 +22,7 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Padding(
-                    padding: const EdgeInsets.all(normal_100)
+                    padding: const EdgeInsets.all(normal_300)
                         .copyWith(top: normal_200),
                     child: Text('Log In.',
                         style: Theme.of(context).textTheme.titleMedium,

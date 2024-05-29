@@ -41,6 +41,31 @@ class LoginValidation with ChangeNotifier {
     }
   }
 
+TextStyle getErrorTextStyle(String? error) {
+  if (error == "Email must be at least 3 characters.") {
+    return const TextStyle(
+      color: Colors.red,
+      fontSize: 18.0, // Taille de police plus grande pour ce message d'erreur spécifique
+      fontWeight: FontWeight.bold,
+    );
+  }
+  if (error == "Enter a valid Email address.") {
+    return const TextStyle(
+      color: Colors.red,
+      fontSize: 18.0, // Taille de police plus grande pour ce message d'erreur spécifique
+      fontWeight: FontWeight.bold,
+    );
+  }
+  return const TextStyle(
+    color: Colors.red,
+    fontSize: 16.0, // Taille de police standard pour les autres messages
+  );
+}
+
+
+
+
+
   // Setters
   void changeEmail(String value) {
     if (value == '') {
@@ -58,6 +83,7 @@ class LoginValidation with ChangeNotifier {
       }
     } else {
       _email = ValidationItem(null, "Email must be at least 3 characters.");
+      getErrorTextStyle(_email as String?);
     }
     Future.delayed(largeAnimationDuration, () {
       notifyListeners();
