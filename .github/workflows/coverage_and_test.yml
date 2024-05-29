@@ -115,15 +115,13 @@ jobs:
           flutter-version: '3.19.5'
       - run: flutter pub get
       - run: flutter clean
-      - run: cd proximity_client/lib &&
+      - run: |
+          cd proximity_client
           flutter build apk
       - name: Debug - List APK Directory
         run: |
-          cd proximity_client/build/app/outputs/flutter-apk/
-          ls -la
-  # Construire un fichier APK de l'application. 
-  # Un APK (Android Package) est le format de fichier utilisé pour distribuer et installer des applications sur 
-  # les appareils Android. Cette commande compile le code source Dart en un fichier exécutable Android.
+          echo "Listing APK directory content..."
+          ls -la proximity_client/build/app/outputs/flutter-apk/
 
   # Job 6: Deploy Android APK
   deploy_android:
@@ -131,13 +129,21 @@ jobs:
     needs: build_android
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Debug - List APK Directory Before Upload
+        run: |
+          echo "Listing APK directory content before upload..."
+          ls -la proximity_client/build/app/outputs/flutter-apk/
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v2
         with:
           name: app-release
           path: proximity_client/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: warn
+          compression-level: 6
+          overwrite: false
 
-    
 # Job de backend
   # backend:
   #   name: Build and Deploy Backend
