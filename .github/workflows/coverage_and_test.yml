@@ -55,6 +55,16 @@ jobs:
             exit 1
           fi
 
+      - name: Run tests and generate coverage report
+        run: |
+          cd proximity_commercant
+          flutter test --coverage
+          if [ ! -f coverage/lcov.info ]; then
+            echo "Coverage report not found!"
+            exit 1
+          fi
+          
+
   # Job 3: Clean Coverage Report
   clean_coverage:
     runs-on: ubuntu-latest
@@ -80,6 +90,18 @@ jobs:
           cd proximity_client
           ls -l coverage
 
+      - name: Install lcov
+        run: sudo apt-get install -y lcov
+      - name: Clean coverage report
+        run: |
+          cd proximity_commercant
+          lcov --remove coverage/lcov.info '*/test/*' -o coverage/lcov.cleaned.info
+
+      - name: List cleaned coverage report
+        run: |
+          cd proximity_commercant
+          ls -l coverage
+
   # Job 4: Upload notre rapport de couverture vers le site codecov
   upload_coverage:
     runs-on: ubuntu-latest
@@ -98,6 +120,12 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: proximity_client/coverage/lcov.info
+
+      - name: Upload coverage report to codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: proximity_commercant/coverage/lcov.info
     
 
   # Job 5: Build Android APK
